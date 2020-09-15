@@ -5,13 +5,14 @@ import java.util.Arrays;
 /**
  * @author shawf_lee
  * @date 2020/9/15 9:58
- * Content: 37. 解数独
+ * Content: 37. 解数独 36.判断数独是否有解
  */
 public class SolveSudoku {
     private static boolean[][] row = new boolean[9][9];
     private static boolean[][] col = new boolean[9][9];
     private static boolean[][][] blo = new boolean[3][3][9];
 
+    //题号37
     public static void solveSudoku(char[][] board) {
         //true表示这个数（这行，这列，这格）用过了
         for (int i = 0; i < board.length; i++) {
@@ -60,6 +61,28 @@ public class SolveSudoku {
         return false;
     }
 
+    //题号36
+    public static boolean isValidSudoku(char[][] board) {
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][][] blo = new boolean[3][3][9];
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == '.'){
+                    continue;
+                }
+                int num = board[i][j] - '1';
+                if(row[i][num] || col[j][num] || blo[i/3][j/3][num]){
+                    return false;
+                }
+                row[i][num] = true;
+                col[j][num] = true;
+                blo[i/3][j/3][num] = true;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         char [][]board = new char[][]{
                 {'5','3','.','.','7','.','.','.','.'},
@@ -71,9 +94,15 @@ public class SolveSudoku {
                 {'.','6','.','.','.','.','2','8','.'},
                 {'.','.','.','4','1','9','.','.','5'},
                 {'.','.','.','.','8','.','.','7','9'} };
-        solveSudoku(board);
-        for (char[] item : board) {
-            System.out.println(Arrays.toString(item));
+
+        boolean isValid = isValidSudoku(board);
+        System.out.println("数独是否有解："+String.valueOf(isValid));
+        if(isValid) {
+            solveSudoku(board);
+            for (char[] item : board) {
+                System.out.println(Arrays.toString(item));
+            }
         }
+
     }
 }
