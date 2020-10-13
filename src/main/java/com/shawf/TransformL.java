@@ -5,24 +5,25 @@ package com.shawf;
  * @date 2020/10/8 21:33
  *Content:
  */
-public class TransformL {
-    public class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode() {
-        }
+class ListNode {
+    int val;
+    ListNode next;
 
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
+    ListNode() {
     }
 
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+public class TransformL {
 
     /**
      * 链表： (a1 -> a2 -> a3 ->... -> an-2 -> an-1 -> an)变为(a1 -> an -> a2 -> an-1 -> a3 -> an-2...)
