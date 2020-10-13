@@ -24,7 +24,6 @@ public class TransformL {
     }
 
 
-
     /**
      * 链表： (a1 -> a2 -> a3 ->... -> an-2 -> an-1 -> an)变为(a1 -> an -> a2 -> an-1 -> a3 -> an-2...)
      * 示例1：(a1 -> a2 -> a3 -> a4 -> a5 -> a6)变为(a1 -> a6 -> a2 -> a5 -> a3 -> a4)
@@ -64,16 +63,16 @@ public class TransformL {
      * @return
      */
     public ListNode swapPairs(ListNode head) {
-        if(head == null || head.next == null){
+        if (head == null || head.next == null) {
             return head;
         }
         ListNode p = head;
         ListNode q = head.next;
         ListNode res = q;
-        while(q != null){
+        while (q != null) {
             p.next = q.next;
             q.next = p;
-            if(p.next == null||p.next.next == null){
+            if (p.next == null || p.next.next == null) {
                 break;
             }
             ListNode temp = p.next;
@@ -85,6 +84,72 @@ public class TransformL {
         return res;
     }
 
+    /**
+     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+     * k 是一个正整数，它的值小于或等于链表的长度。
+     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+     * 示例：
+     * 给你这个链表：1->2->3->4->5
+     * 当 k = 2 时，应当返回: 2->1->4->3->5
+     * 当 k = 3 时，应当返回: 3->2->1->4->5
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode nextStart = head;
+        for(int i = 1; i <= k; i++){
+            if (nextStart == null) {
+                return head;
+            }
+            nextStart = nextStart.next;
+        }
+        ListNode newHead = reverse(head,k);
+        ListNode nextHead = reverseKGroup(nextStart, k);
+        head.next = nextHead;
+        return newHead;
+    }
+
+    /**
+     * 反转链表返回新的链表头
+     * @param head
+     * @return
+     */
+    public ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+
+        }
+        return pre;
+    }
+
+    /**
+     * 反转链表的前k个节点,返回新的链表头
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode reverse(ListNode head, int k) {
+        if(k == 1){
+            return head;
+        }
+        ListNode pre = null;
+        ListNode next = null;
+        for (int i = 1; i <= k; i++) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
+
+    }
+
     public static int[] stringToIntegerArray(String input) {
         input = input.trim();
         input = input.substring(1, input.length() - 1);
@@ -94,27 +159,27 @@ public class TransformL {
 
         String[] parts = input.split(",");
         int[] output = new int[parts.length];
-        for(int index = 0; index < parts.length; index++) {
+        for (int index = 0; index < parts.length; index++) {
             String part = parts[index].trim();
             output[index] = Integer.parseInt(part);
         }
         return output;
     }
 
-    public  ListNode stringToListNode(String input) {
+    public ListNode stringToListNode(String input) {
 
         int[] nodeValues = stringToIntegerArray(input);
 
         ListNode dummyRoot = new ListNode(0);
         ListNode ptr = dummyRoot;
-        for(int item : nodeValues) {
+        for (int item : nodeValues) {
             ptr.next = new ListNode(item);
             ptr = ptr.next;
         }
         return dummyRoot.next;
     }
 
-    public  String listNodeToString(ListNode node) {
+    public String listNodeToString(ListNode node) {
         if (node == null) {
             return "[]";
         }
@@ -133,5 +198,11 @@ public class TransformL {
         ListNode res = transformL.transform1(root);
         System.out.println(transformL.listNodeToString(res));
         System.out.println(transformL.listNodeToString(transformL.swapPairs(root)));
+        ListNode head = transformL.stringToListNode("[1,2,3,4,5,6]");
+        ListNode res1 = transformL.reverse(head);
+        System.out.println(transformL.listNodeToString(res1));
+        System.out.println(transformL.listNodeToString(transformL.reverse(res1,2)));
+        head = transformL.stringToListNode("[1,2,3,4,5,6]");
+        System.out.println(transformL.listNodeToString(transformL.reverseKGroup(head,3)));
     }
 }
