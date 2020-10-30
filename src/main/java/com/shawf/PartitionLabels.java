@@ -2,6 +2,7 @@ package com.shawf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -38,8 +39,39 @@ public class PartitionLabels {
         return res;
     }
 
+    //56. 合并区间
+    public int[][] merge(int[][] intervals) {
+        List<int[]> res = new ArrayList<>();
+        if(intervals == null || intervals.length  <= 1){
+            return intervals;
+        }
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] == o2[0]){
+                    return o1[1] - o2[1];
+                }
+                return o1[0] - o2[0];
+            }
+        });
+        for(int i = 0; i < intervals.length; i++){
+            int l = intervals[i][0];
+            int r = intervals[i][1];
+            while(i+1 < intervals.length && r >= intervals[i+1][0]){
+                r = Math.max(r, intervals[i+1][1]);
+                i++;
+            }
+            res.add(new int[]{l,r});
+        }
+        System.out.println(Arrays.toString(intervals));
+        return res.toArray(new int[res.size()][2]);
+    }
+
     public static void main(String[] args) {
         List<Integer> res = new PartitionLabels().partitionLabels("ababcbacadefegdehijhklij");
         System.out.println(Arrays.toString(res.toArray()));
+        int [][] arr = new int[][]{{1,3},{2,6},{8,10},{15,18}};
+        int [][] resArr = new PartitionLabels().merge(arr);
+        System.out.println(Arrays.deepToString(resArr));
     }
 }
