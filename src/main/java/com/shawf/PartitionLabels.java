@@ -63,7 +63,6 @@ public class PartitionLabels {
             }
             res.add(new int[]{l,r});
         }
-        System.out.println(Arrays.toString(intervals));
         return res.toArray(new int[res.size()][2]);
     }
 
@@ -72,6 +71,7 @@ public class PartitionLabels {
         System.out.println(Arrays.toString(res.toArray()));
         int [][] arr = new int[][]{{1,3},{2,6},{8,10},{15,18}};
         int [][] resArr = new PartitionLabels().merge(arr);
+        System.out.println(Arrays.deepToString(arr));
         System.out.println(Arrays.deepToString(resArr));
     }
 }
