@@ -148,6 +148,52 @@ public class Traversal {
         return res;
     }
 
+    //层次遍历
+    public List<Integer> levelTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        if(root == null){
+            return res;
+        }deque.add(root);
+        while(!deque.isEmpty()){
+            TreeNode temp = deque.poll();
+            res.add(temp.val);
+            if(temp.left != null){
+                deque.add(temp.left);
+            }
+            if(temp.right != null){
+                deque.add(temp.right);
+            }
+        }
+        return res;
+    }
+
+
+    //自下向上,自右向左，即层次遍历逆向
+    public List<Integer> levelTraversalReverse(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if(root == null){
+            return res;
+        }deque.add(root);
+        while(!deque.isEmpty()){
+            TreeNode temp = deque.poll();
+            stack.push(temp);
+            if(temp.left != null){
+                deque.add(temp.left);
+            }
+            if(temp.right != null){
+                deque.add(temp.right);
+            }
+        }
+        while(!stack.isEmpty()){
+            TreeNode temp = stack.pop();
+            res.add(temp.val);
+        }
+        return res;
+    }
+
     public TreeNode stringToTreeNode(String input) {
         input = input.trim();
         input = input.substring(1, input.length() - 1);
@@ -209,5 +255,11 @@ public class Traversal {
         //后序遍历
         System.out.println(Arrays.toString(traversal.postorderTraversal(root).toArray()));
         System.out.println(Arrays.toString(traversal.postorderTraversal2(root).toArray()));
+
+        //层次遍历
+        System.out.println(Arrays.toString(traversal.levelTraversal(root).toArray()));
+
+        //层次遍历逆向
+        System.out.println(Arrays.toString(traversal.levelTraversalReverse(root).toArray()));
     }
 }
